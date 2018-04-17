@@ -25,7 +25,7 @@ function infer {
 
 echo "Using core.typed version $CORETYPEDVERSION"
 
-# OK
+# OK - work out of the box
 infer data.codec clojure.data.codec.base64 3000 "[]" https://github.com/clojure/data.codec.git
 infer clj-time clj-time.core 200 "[]" https://github.com/clj-time/clj-time.git
 infer compojure compojure.core 3000 "[]" https://github.com/weavejester/compojure.git
@@ -34,13 +34,15 @@ infer brevis-utils brevis-utils.math.matrix 3000 "[]" https://github.com/brevis-
 infer full.core full.core.time 3000 "[]" https://github.com/fullcontact/full.core.git
 infer core.match clojure.core.match 3000 "[]" https://github.com/clojure/core.match.git
 infer crypto-equality crypto.equality 3000 "[]" https://github.com/weavejester/crypto-equality.git
+## Note: slow join, related to keyword singletons
 infer utilis utilis.map 3000 "[]" https://github.com/7theta/utilis.git
 infer utilis utilis.string 3000 "[]" https://github.com/7theta/utilis.git
 
-# check me
-
 # slow
 #infer clojurescript cljs.compiler 200 "[cljs.compiler-tests]" https://github.com/clojure/clojurescript.git
+
+# check me
+#infer spectrum spectrum.java 3000 "[]" https://github.com/arohner/spectrum.git
 
 
 # no project.clj
