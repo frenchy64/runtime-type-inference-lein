@@ -18,8 +18,7 @@ function infer {
   #git checkout master -f
 
 
-  lein with-profiles dev,rti typed infer-type $2 :test-timeout-ms $3 :test-selectors $4 :infer-opts "{:out-dir \"../out/types/$1\"}"
-  lein with-profiles dev,rti typed infer-spec $2 :test-timeout-ms $3 :test-selectors $4 :infer-opts "{:out-dir \"../out/specs/$1\"}"
+  lein with-profiles dev,rti typed infer-all $2 :test-timeout-ms $3 :test-selectors $4 :infer-opts "{:out-dir \"../out/$1\"}"
   cd ..
 }
 
@@ -43,7 +42,6 @@ infer utilis utilis.string 3000 "[]" https://github.com/7theta/utilis.git
 
 # check me
 #infer spectrum spectrum.java 3000 "[]" https://github.com/arohner/spectrum.git
-
 
 # no project.clj
 #infer math.combinatorics clojure.math.combinatorics 3000 "[]" https://github.com/clojure/math.combinatorics.git
