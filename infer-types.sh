@@ -1,12 +1,13 @@
 #!/bin/bash
 
-export CORETYPEDVERSION=${1:-"0.5.1-SNAPSHOT"}
+export CORETYPEDVERSION=${1:-"0.6.1-SNAPSHOT"}
 
 # $1 = local name of the repository
 # $2 = namespace to infer
 # $3 = ms timeout
 # $4 = selectors
 # $5 = clone URL
+# $6 = instrument-opts config
 function infer {
   echo "Testing $1"
   if [ ! -d "$1" ]
@@ -18,27 +19,28 @@ function infer {
   #git checkout master -f
 
 
-  lein with-profiles dev,rti typed infer-all $2 :test-timeout-ms $3 :test-selectors $4 :infer-opts "{:out-dir \"../out/$1\"}"
+  lein with-profiles dev,rti typed infer-all $2 :test-timeout-ms $3 :test-selectors $4 :infer-opts '{:out-dir "../out/'"$1"'"}' :instrument-opts '{:root-results 1000 :force-depth 10 :track-metric "(fn [{:keys [results-atom]}] (spit \"metrics.txt\" (str (:root-results @results-atom) \"\\n\") :append true))"}'
   cd ..
 }
 
 echo "Using core.typed version $CORETYPEDVERSION"
 
 # OK - work out of the box
-infer data.codec clojure.data.codec.base64 3000 "[]" https://github.com/clojure/data.codec.git
+#infer data.codec clojure.data.codec.base64 3000 "[]" https://github.com/clojure/data.codec.git
 infer clj-time clj-time.core 200 "[]" https://github.com/clj-time/clj-time.git
-infer compojure compojure.core 3000 "[]" https://github.com/weavejester/compojure.git
-infer tufte taoensso.tufte 3000 "[]" https://github.com/ptaoussanis/tufte.git
-infer brevis-utils brevis-utils.math.matrix 3000 "[]" https://github.com/brevis-us/brevis-utils.git
-infer full.core full.core.time 3000 "[]" https://github.com/fullcontact/full.core.git
-infer core.match clojure.core.match 3000 "[]" https://github.com/clojure/core.match.git
-infer crypto-equality crypto.equality 3000 "[]" https://github.com/weavejester/crypto-equality.git
+#infer compojure compojure.core 3000 "[]" https://github.com/weavejester/compojure.git
+#infer tufte taoensso.tufte 3000 "[]" https://github.com/ptaoussanis/tufte.git
+#infer brevis-utils brevis-utils.math.matrix 3000 "[]" https://github.com/brevis-us/brevis-utils.git
+#infer full.core full.core.time 3000 "[]" https://github.com/fullcontact/full.core.git
+#infer core.match clojure.core.match 3000 "[]" https://github.com/clojure/core.match.git
+#infer crypto-equality crypto.equality 3000 "[]" https://github.com/weavejester/crypto-equality.git
 ## Note: slow join, related to keyword singletons
-infer utilis utilis.map 3000 "[]" https://github.com/7theta/utilis.git
-infer utilis utilis.string 3000 "[]" https://github.com/7theta/utilis.git
+#infer utilis utilis.map 3000 "[]" https://github.com/7theta/utilis.git
+#infer utilis utilis.string 3000 "[]" https://github.com/7theta/utilis.git
 
 # slow
 #infer clojurescript cljs.compiler 200 "[cljs.compiler-tests]" https://github.com/clojure/clojurescript.git
+#infer clojurescript cljs.compiler nil "[cljs.compiler-tests]" https://github.com/clojure/clojurescript.git 
 
 # check me
 #infer spectrum spectrum.java 3000 "[]" https://github.com/arohner/spectrum.git
